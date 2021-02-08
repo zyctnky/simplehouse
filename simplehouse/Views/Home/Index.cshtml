@@ -1,0 +1,29 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<main>
+    <header class="row tm-welcome-section">
+        <h2 class="col-12 text-center tm-section-title">Welcome to Simple House</h2>
+        <p class="col-12 text-center">Curabitur ipsum dolor, rutrum mattis venenatis ut, auctor at nulla. Donec ipsum lectus, consequat dignissim dolor ut, molestie finibus libero. Donec odio massa, tempor eu pulvinar sed, luctus pellentesque elit.</p>
+    </header>
+    @Html.Action("_Menu","Partials")
+    <div class="tm-section tm-container-inner">
+        <div class="row">
+            <div class="col-md-6">
+                <figure class="tm-description-figure">
+                    <img src="~/Content/assets/img/img-01.jpg" alt="Image" class="img-fluid" />
+                </figure>
+            </div>
+            <div class="col-md-6">
+                <div class="tm-description-box">
+                    <h4 class="tm-gallery-title">Maecenas nulla neque</h4>
+                    <p class="tm-mb-45">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse turpis tortor, lacinia in scelerisque vel, pulvinar sit amet ipsum.</p>
+                    <a href="/about" class="tm-btn tm-btn-default tm-right">About Us</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+

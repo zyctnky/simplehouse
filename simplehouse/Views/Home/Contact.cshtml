@@ -1,0 +1,24 @@
+﻿
+@{
+    ViewBag.Title = "Contact";
+}
+
+<main>
+    <header class="row tm-welcome-section">
+        <h2 class="col-12 text-center tm-section-title">Contact Page</h2>
+        <p class="col-12 text-center">Donec velit nulla, elementum sed gravida at, fermentum sed orci. Integer sit amet tortor ut ex mattis maximus. Suspendisse quis varius eros. </p>
+    </header>
+
+    <div class="tm-container-inner-2 tm-contact-section">
+        <div class="row">
+            <div class="col-md-6">
+                @Html.Action("_ContactForm","Partials")
+            </div>
+            <div class="col-md-6">
+                @Html.Action("_ContactInfo","Partials")
+            </div>
+        </div>
+    </div>
+
+    @Html.Action("_Faqs","Partials")
+</main>
