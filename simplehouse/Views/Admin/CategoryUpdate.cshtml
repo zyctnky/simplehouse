@@ -1,0 +1,43 @@
+﻿@model simplehouse.Models.CATEGORY
+@{
+    ViewBag.Title = "Kategory Düzenle";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="card content-card">
+    <div class="card-header py-3 bg-dark text-light">
+        <h5 class="m-0">Kategori Düzenle</h5>
+    </div>
+    <div class="card-body">
+        @if (ViewBag.Error != null)
+        {
+            <div class="bg-danger text-light p-3 mb-2">
+                <span>@ViewBag.Error</span>
+            </div>
+        }
+        <div class="row">
+            <div class="col-md-6">
+                @using (Html.BeginForm("UpdateCategoryForm", "Admin", FormMethod.Post))
+                {
+                    <div class="form-group mb-3">
+                        <label>Durum</label>
+                        @Html.DropDownList("STATE_ID", null, htmlAttributes: new { @class = "form-select" })
+                    </div>
+                    <div class="form-group mb-3">
+                        <label>Kategori Adı</label>
+                        @Html.TextBoxFor(model => model.NAME, new { @class = "form-control", type = "text", placeholder = "Name" })
+                    </div>
+                    <div class="form-group text-end">
+                        @Html.HiddenFor(model => model.ID)
+                        <button type="submit" class="btn btn-primary btn-sm" href="/admin/kategori-ekle"><i class="fa fa-save me-2"></i>Kaydet</button>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="card-footer bg-dark text-light">
+        <div class="text-end">
+            <a class="btn btn-danger btn-sm" href="/admin/kategoriler"><i class="fa fa-times me-2"></i>İptal</a>
+        </div>
+    </div>
+</div>

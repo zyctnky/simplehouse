@@ -88,6 +88,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\admin_assets\css\bootstrap.min.css" />
+    <Content Include="Content\admin_assets\css\style.css" />
+    <Content Include="Content\admin_assets\js\bootstrap.bundle.min.js" />
     <Content Include="Content\assets\css\all.min.css" />
     <Content Include="Content\assets\css\templatemo-style.css" />
     <Content Include="Content\assets\img\about-01.jpg" />
@@ -121,9 +124,13 @@
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PartialsController.cs" />
+    <Compile Include="DataAccess\CategoryDataAccess.cs" />
+    <Compile Include="DataAccess\StateDataAccess.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\CATEGORY.cs" />
+    <Compile Include="Models\STATE.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -151,6 +158,17 @@
     <Content Include="Views\Partials\_ContactForm.cshtml" />
     <Content Include="Views\Partials\_ContactInfo.cshtml" />
     <Content Include="Views\Partials\_Faqs.cshtml" />
+    <Content Include="Views\Shared\_AdminLayout.cshtml" />
+    <Content Include="Views\Admin\Index.cshtml" />
+    <Content Include="Views\Admin\Categories.cshtml" />
+    <Content Include="Views\Admin\Foods.cshtml" />
+    <Content Include="Views\Admin\Members.cshtml" />
+    <Content Include="Views\Admin\ContactInfo.cshtml" />
+    <Content Include="Views\Admin\ContactForms.cshtml" />
+    <Content Include="Views\Admin\ChangePassword.cshtml" />
+    <Content Include="Views\Admin\CategoryInsert.cshtml" />
+    <Content Include="Views\Admin\CategoryUpdate.cshtml" />
+    <Content Include="Views\Admin\CategoryDelete.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -160,8 +178,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
-    <Folder Include="Views\Admin\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
