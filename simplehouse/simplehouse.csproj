@@ -126,12 +126,14 @@
     <Compile Include="Controllers\PartialsController.cs" />
     <Compile Include="DataAccess\CategoryDataAccess.cs" />
     <Compile Include="DataAccess\FoodDataAccess.cs" />
+    <Compile Include="DataAccess\MemberDataAccess.cs" />
     <Compile Include="DataAccess\StateDataAccess.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\CATEGORY.cs" />
     <Compile Include="Models\FOOD.cs" />
+    <Compile Include="Models\MEMBER.cs" />
     <Compile Include="Models\STATE.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -175,6 +177,10 @@
     <Content Include="Views\Admin\FoodUpdate.cshtml" />
     <Content Include="Views\Admin\FoodDelete.cshtml" />
     <Content Include="Views\Admin\Food.cshtml" />
+    <Content Include="Views\Admin\Member.cshtml" />
+    <Content Include="Views\Admin\MemberInsert.cshtml" />
+    <Content Include="Views\Admin\MemberUpdate.cshtml" />
+    <Content Include="Views\Admin\MemberDelete.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -185,6 +191,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\images\foods\" />
+    <Folder Include="Content\images\members\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

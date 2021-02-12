@@ -1,0 +1,39 @@
+﻿@model simplehouse.Models.MEMBER
+@{
+    ViewBag.Title = "Member";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="card content-card">
+    <div class="card-header py-3 bg-dark text-light">
+        <h5 class="m-0">Takım Üyesi Detayları</h5>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6">
+                <img src="~/Content/images/members/@Model.IMAGE" class="img-fluid mb-3" />
+            </div>
+            <div class="col-md-6">
+                <p><b>Durum: </b> @Model.STATE_NAME</p>
+                <p><b>Ad Soyad: </b> @Model.NAME</p>
+                <p><b>Ünvan: </b> @Model.TITLE</p>
+                <p><b>Detaylar: </b> @Model.DESCRIPTION</p>
+                <p><b>Twitter: </b> @Model.TWITTER</p>
+                <p><b>Facebook: </b> @Model.FACEBOOK</p>
+                <p><b>Instagram: </b> @Model.INSTAGRAM</p>
+            </div>
+        </div>
+    </div>
+    <div class="card-footer bg-dark text-light">
+        <div class="row">
+            <div class="col-6">
+                <a class="btn btn-primary btn-sm" href="/admin/takim-uyesi-duzenle/@Model.ID"><i class="fa fa-edit me-2"></i>Düzenle</a>
+                <a class="btn btn-danger btn-sm" href="/admin/takim-uyesi-sil/@Model.ID"><i class="fa fa-trash me-2"></i>Sil</a>
+            </div>
+            <div class="col-6 text-end">
+                <a class="btn btn-danger btn-sm" href="/admin/takim-uyeleri"><i class="fa fa-times me-2"></i>İptal</a>
+            </div>
+        </div>
+    </div>
+</div>
+

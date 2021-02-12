@@ -1,8 +1,48 @@
-﻿
+﻿@model List<simplehouse.Models.MEMBER>
 @{
-    ViewBag.Title = "Members";
+    ViewBag.Title = "Takım Üyeleri";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h2>Members</h2>
+<div class="card content-card">
+    <div class="card-header py-3 bg-dark text-light">
+        <h5 class="m-0">Takım Üyeleri</h5>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-sm table-hover">
+                <thead>
+                    <tr>
+                        <th>Görsel</th>
+                        <th>Ad Soyad</th>
+                        <th>Ünvan</th>
+                        <th>Durum</th>
+                        <th class="text-end">İşlemler</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td><img src="~/Content/images/members/@item.IMAGE" style="height: 30px" /></td>
+                            <td>@item.NAME</td>
+                            <td>@item.TITLE</td>
+                            <td>@item.STATE_NAME</td>
+                            <td class="text-end">
+                                <a href="/admin/takim-uyesi/@item.ID" class="btn btn-dark px-3 py-0"><i class="fa fa-sm fa-ellipsis-h"></i></a>
+                                <a href="/admin/takim-uyesi-duzenle/@item.ID" class="btn btn-primary px-3 py-0"><i class="fa fa-sm fa-edit"></i></a>
+                                <a href="/admin/takim-uyesi-sil/@item.ID" class="btn btn-danger px-3 py-0"><i class="fa fa-sm fa-trash"></i></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="card-footer bg-dark text-light">
+        <div class="text-end">
+            <a class="btn btn-outline-light btn-sm" href="/admin/takim-uyesi-ekle"><i class="fa fa-plus me-2"></i>Yeni Takım Üyesi</a>
+        </div>
+    </div>
+</div>
 
