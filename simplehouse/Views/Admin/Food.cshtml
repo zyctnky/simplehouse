@@ -1,0 +1,36 @@
+﻿@model simplehouse.Models.FOOD
+@{
+    ViewBag.Title = "Food";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="card content-card">
+    <div class="card-header py-3 bg-dark text-light">
+        <h5 class="m-0">Yiyecek Detayları</h5>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6">
+                <img src="~/Content/images/foods/@Model.IMAGE" class="img-fluid mb-3" />
+            </div>
+            <div class="col-md-6">
+                <p><b>Durum: </b> @Model.STATE_NAME</p>
+                <p><b>Kategori: </b> @Model.CATEGORY_NAME</p>
+                <p><b>Yiyecek Adı: </b> @Model.TITLE</p>
+                <p><b>Açıklama: </b> @Model.DESCRIPTION</p>
+                <p><b>Fiyat: </b> $@String.Format("{0:0.00}", Model.PRICE)</p>
+            </div>
+        </div>
+    </div>
+    <div class="card-footer bg-dark text-light">
+        <div class="row">
+            <div class="col-6">
+                <a class="btn btn-primary btn-sm" href="/admin/yiyecek-duzenle/@Model.ID"><i class="fa fa-edit me-2"></i>Düzenle</a>
+                <a class="btn btn-danger btn-sm" href="/admin/yiyecek-sil/@Model.ID"><i class="fa fa-trash me-2"></i>Sil</a>
+            </div>
+            <div class="col-6 text-end">
+                <a class="btn btn-danger btn-sm" href="/admin/yiyecekler"><i class="fa fa-times me-2"></i>İptal</a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -2,6 +2,7 @@
 using simplehouse.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -12,6 +13,7 @@ namespace simplehouse.Controllers
     {
         CategoryDataAccess categoryDA = new CategoryDataAccess();
         StateDataAccess stateDA = new StateDataAccess();
+        FoodDataAccess foodDA = new FoodDataAccess();
 
         [Route("admin")]
         public ActionResult Index()
@@ -19,6 +21,7 @@ namespace simplehouse.Controllers
             return View();
         }
 
+        #region Kategori
         [Route("admin/kategoriler")]
         public ActionResult Categories()
         {
@@ -121,11 +124,157 @@ namespace simplehouse.Controllers
                 return View("CategoryDelete", category);
             }
         }
+        #endregion
 
         [Route("admin/yiyecekler")]
         public ActionResult Foods()
         {
+            List<FOOD> foods = foodDA.GetAll(null);
+            return View(foods);
+        }
+
+        [Route("admin/yiyecek/{id}")]
+        public ActionResult Food(int id)
+        {
+            FOOD food = foodDA.GetById(id);
+            return View(food);
+        }
+
+        [Route("admin/yiyecek-ekle")]
+        public ActionResult FoodInsert()
+        {
+            PopulateStateDropdownList();
+            PopulateCategoryDropdownList();
             return View();
+        }
+
+        [HttpPost]
+        public ActionResult InsertFoodForm(FOOD food)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    if (Request.Files.Count > 0)
+                    {
+                        string dosyaAdi = Guid.NewGuid().ToString().Replace("-", "");
+                        string uzanti = Path.GetExtension(Request.Files[0].FileName);
+                        string tamYolYeri = "~/Content/images/foods/" + dosyaAdi + uzanti;
+                        Request.Files[0].SaveAs(Server.MapPath(tamYolYeri));
+                        food.IMAGE = dosyaAdi + uzanti;
+                    }
+                    else
+                    {
+                        ViewBag.Error = "Resim eklemelisiniz.";
+                        PopulateStateDropdownList(food.STATE_ID);
+                        PopulateCategoryDropdownList(food.CATEGORY_ID);
+                        return View("FoodInsert", food);
+                    }
+
+                    foodDA.Insert(food);
+                    return RedirectToAction("Foods", "Admin");
+                }
+                else
+                {
+                    ViewBag.Error = "Try Again.";
+                    PopulateStateDropdownList(food.STATE_ID);
+                    PopulateCategoryDropdownList(food.CATEGORY_ID);
+                    return View("FoodInsert", food);
+                }
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Error = "Try Again.";
+                PopulateStateDropdownList(food.STATE_ID);
+                PopulateCategoryDropdownList(food.CATEGORY_ID);
+                return View("FoodInsert", food);
+            }
+        }
+
+        [Route("admin/yiyecek-duzenle/{id}")]
+        public ActionResult FoodUpdate(int id)
+        {
+            FOOD food = foodDA.GetById(id);
+            PopulateStateDropdownList(food.STATE_ID);
+            PopulateCategoryDropdownList(food.CATEGORY_ID);
+            return View(food);
+        }
+
+        [HttpPost]
+        public ActionResult UpdateFoodForm(FOOD food)
+        {
+            FOOD _food = foodDA.GetById(food.ID);
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    if (Request.Files.Count > 0 && Request.Files[0].ContentLength > 0)
+                    {
+                        if (System.IO.File.Exists(Server.MapPath("~/Content/images/foods/" + _food.IMAGE)))
+                            System.IO.File.Delete(Server.MapPath("~/Content/images/foods/" + _food.IMAGE));
+
+                        string dosyaAdi = Guid.NewGuid().ToString().Replace("-", "");
+                        string uzanti = Path.GetExtension(Request.Files[0].FileName);
+                        string tamYolYeri = "~/Content/images/foods/" + dosyaAdi + uzanti;
+                        Request.Files[0].SaveAs(Server.MapPath(tamYolYeri));
+                        food.IMAGE = dosyaAdi + uzanti;
+                    }
+                    else
+                        food.IMAGE = _food.IMAGE;
+
+                    foodDA.Update(food);
+                    return RedirectToAction("Foods", "Admin");
+                }
+                else
+                {
+                    ViewBag.Error = "Try Again.";
+                    PopulateStateDropdownList(_food.STATE_ID);
+                    PopulateCategoryDropdownList(_food.CATEGORY_ID);
+                    return View("FoodUpdate", _food);
+                }
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Error = "Try Again.";
+                PopulateStateDropdownList(_food.STATE_ID);
+                PopulateCategoryDropdownList(_food.CATEGORY_ID);
+                return View("FoodUpdate", _food);
+            }
+        }
+
+        [Route("admin/yiyecek-sil/{id}")]
+        public ActionResult FoodDelete(int id)
+        {
+            FOOD food = foodDA.GetById(id);
+            return View(food);
+        }
+
+        [HttpPost]
+        public ActionResult DeleteFoodForm(int id)
+        {
+            FOOD food = foodDA.GetById(id);
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    foodDA.Delete(id);
+
+                    if (System.IO.File.Exists(Server.MapPath("~/Content/images/foods/" + food.IMAGE)))
+                        System.IO.File.Delete(Server.MapPath("~/Content/images/foods/" + food.IMAGE));
+
+                    return RedirectToAction("Foods", "Admin");
+                }
+                else
+                {
+                    ViewBag.Error = "Try Again.";
+                    return View("FoodDelete", food);
+                }
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Error = "Try Again.";
+                return View("FoodDelete", food);
+            }
         }
 
         [Route("admin/takim-uyeleri")]
@@ -156,6 +305,12 @@ namespace simplehouse.Controllers
         {
             var statesQuery = stateDA.GetAll();
             ViewBag.STATE_ID = new SelectList(statesQuery, "ID", "NAME", selectedState);
+        }
+
+        private void PopulateCategoryDropdownList(object selectedCategory = null)
+        {
+            var categoriesQuery = categoryDA.GetAll(true);
+            ViewBag.CATEGORY_ID = new SelectList(categoriesQuery, "ID", "NAME", selectedCategory);
         }
     }
 }

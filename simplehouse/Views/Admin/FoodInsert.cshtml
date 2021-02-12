@@ -1,0 +1,59 @@
+﻿@model simplehouse.Models.FOOD
+@{
+    ViewBag.Title = "Yiyecek Ekle";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="card content-card">
+    <div class="card-header py-3 bg-dark text-light">
+        <h5 class="m-0">Yiyecek Ekle</h5>
+    </div>
+    <div class="card-body">
+        @if (ViewBag.Error != null)
+        {
+            <div class="bg-danger text-light p-3 mb-2">
+                <span>@ViewBag.Error</span>
+            </div>
+        }
+        <div class="row">
+            <div class="col-md-6">
+                @using (Html.BeginForm("InsertFoodForm", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+                    <div class="form-group mb-3">
+                        <label>Durum</label>
+                        @Html.DropDownList("STATE_ID", null, htmlAttributes: new { @class = "form-select" })
+                    </div>
+                    <div class="form-group mb-3">
+                        <label>Kategori</label>
+                        @Html.DropDownList("CATEGORY_ID", null, htmlAttributes: new { @class = "form-select" })
+                    </div>
+                    <div class="form-group mb-3">
+                        <label>Ürün Adı</label>
+                        @Html.TextBoxFor(model => model.TITLE, new { @class = "form-control", type = "text", placeholder = "Ürün Adı" })
+                    </div>
+                    <div class="form-group mb-3">
+                        <label>Açıklama</label>
+                        @Html.TextBoxFor(model => model.DESCRIPTION, new { @class = "form-control", type = "text", placeholder = "Açıklama" })
+                    </div>
+                    <div class="form-group mb-3">
+                        <label>Fiyat</label>
+                        @Html.TextBoxFor(model => model.PRICE, new { @class = "form-control", type = "text", placeholder = "Fiyat", pattern = "[0-9]+([\\.,][0-9]+)?" })
+                    </div>
+                    <div class="form-group mb-3">
+                        <label>Görsel</label><br />
+                        <input type="file" name="IMAGE" accept="image/*" />
+                    </div>
+                    <div class="form-group text-end">
+                        <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-save me-2"></i>Kaydet</button>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="card-footer bg-dark text-light">
+        <div class="text-end">
+            <a class="btn btn-danger btn-sm" href="/admin/yiyecekler"><i class="fa fa-times me-2"></i>İptal</a>
+        </div>
+    </div>
+</div>
+

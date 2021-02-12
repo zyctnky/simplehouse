@@ -1,8 +1,49 @@
-﻿
+﻿@model List<simplehouse.Models.FOOD>
 @{
     ViewBag.Title = "Foods";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h2>Foods</h2>
-
+<div class="card content-card">
+    <div class="card-header py-3 bg-dark text-light">
+        <h5 class="m-0">Yiyecekler</h5>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-sm table-hover">
+                <thead>
+                    <tr>
+                        <th>Görsel</th>
+                        <th>Kategori</th>
+                        <th>Ürün Adı</th>
+                        <th>Fiyat</th>
+                        <th>Durum</th>
+                        <th class="text-end">İşlemler</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td><img src="~/Content/images/foods/@item.IMAGE" style="height: 30px" /></td>
+                            <td>@item.CATEGORY_NAME</td>
+                            <td>@item.TITLE</td>
+                            <td>$@String.Format("{0:0.00}", item.PRICE)</td>
+                            <td>@item.STATE_NAME</td>
+                            <td class="text-end">
+                                <a href="/admin/yiyecek/@item.ID" class="btn btn-dark px-3 py-0"><i class="fa fa-sm fa-ellipsis-h"></i></a>
+                                <a href="/admin/yiyecek-duzenle/@item.ID" class="btn btn-primary px-3 py-0"><i class="fa fa-sm fa-edit"></i></a>
+                                <a href="/admin/yiyecek-sil/@item.ID" class="btn btn-danger px-3 py-0"><i class="fa fa-sm fa-trash"></i></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="card-footer bg-dark text-light">
+        <div class="text-end">
+            <a class="btn btn-outline-light btn-sm" href="/admin/yiyecek-ekle"><i class="fa fa-plus me-2"></i>Yeni Yiyecek</a>
+        </div>
+    </div>
+</div>

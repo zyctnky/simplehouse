@@ -17,11 +17,9 @@ namespace simplehouse.DataAccess
             List<CATEGORY> categories = new List<CATEGORY>();
             using (con = new SqlConnection(connectionString))
             {
-                string sqlQuery = "";
-                if (state == null)
-                    sqlQuery = $@"SELECT TCATEGORY.*, TSTATE.NAME AS STATE_NAME FROM TCATEGORY INNER JOIN TSTATE ON TSTATE.ID = TCATEGORY.STATE_ID";
-                else
-                    sqlQuery = $@"SELECT TCATEGORY.*, TSTATE.NAME AS STATE_NAME FROM TCATEGORY INNER JOIN TSTATE ON TSTATE.ID = TCATEGORY.STATE_ID WHERE TCATEGORY.STATE_ID = @STATE_ID";
+                string sqlQuery = "SELECT TCATEGORY.*, TSTATE.NAME AS STATE_NAME FROM TCATEGORY INNER JOIN TSTATE ON TSTATE.ID = TCATEGORY.STATE_ID";
+                if (state != null)
+                    sqlQuery += $@" WHERE TCATEGORY.STATE_ID = @STATE_ID";
 
                 using (SqlCommand cmd = new SqlCommand(sqlQuery, con))
                 {
@@ -64,13 +62,32 @@ namespace simplehouse.DataAccess
                         category.ID = (int)reader["ID"];
                         category.NAME = (string)reader["NAME"];
                         category.STATE_ID = (int)reader["STATE_ID"];
-                        category.STATE_NAME = (string)reader["STATE_NAME"]; 
+                        category.STATE_NAME = (string)reader["STATE_NAME"];
                     }
                     con.Close();
                 }
             }
 
             return category;
+        }
+
+        internal void Insert(CATEGORY category)
+        {
+            using (con = new SqlConnection(connectionString))
+            {
+                string sqlQuery = $@"INSERT INTO TCATEGORY (NAME, STATE_ID) VALUES (@NAME, @STATE_ID)";
+
+                using (SqlCommand cmd = new SqlCommand(sqlQuery, con))
+                {
+                    con.Open();
+                    cmd.Parameters.AddWithValue("@NAME", category.NAME);
+                    cmd.Parameters.AddWithValue("@STATE_ID", category.STATE_ID);
+
+                    cmd.ExecuteNonQuery();
+
+                    con.Close();
+                }
+            }
         }
 
         internal void Update(CATEGORY category)
@@ -103,25 +120,6 @@ namespace simplehouse.DataAccess
                 {
                     con.Open();
                     cmd.Parameters.AddWithValue("@ID", id);
-
-                    cmd.ExecuteNonQuery();
-
-                    con.Close();
-                }
-            }
-        }
-
-        internal void Insert(CATEGORY category)
-        {
-            using (con = new SqlConnection(connectionString))
-            {
-                string sqlQuery = $@"INSERT INTO TCATEGORY (NAME, STATE_ID) VALUES (@NAME, @STATE_ID)";
-
-                using (SqlCommand cmd = new SqlCommand(sqlQuery, con))
-                {
-                    con.Open();
-                    cmd.Parameters.AddWithValue("@NAME", category.NAME);
-                    cmd.Parameters.AddWithValue("@STATE_ID", category.STATE_ID);
 
                     cmd.ExecuteNonQuery();
 
