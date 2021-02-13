@@ -1,0 +1,32 @@
+﻿@model simplehouse.Models.CONTACTFORM
+@{
+    ViewBag.Title = "İletişim Formu";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="card content-card">
+    <div class="card-header py-3 bg-dark text-light">
+        <h5 class="m-0">İletişim Formu</h5>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6">
+                <p><b>Ad Soyad: </b> @Model.NAME</p>
+                <p><b>Email: </b> @Model.EMAIL</p>
+                <p><b>Tarih: </b> @Model.SEND_DATE</p>
+                <p><b>Mesaj: </b> @Model.MESSAGE</p>
+            </div>
+        </div>
+    </div>
+    <div class="card-footer bg-dark text-light">
+        <div class="row">
+            <div class="col-6">
+                <a class="btn btn-danger btn-sm" href="/admin/iletisim-formu-sil/@Model.ID"><i class="fa fa-trash me-2"></i>Sil</a>
+            </div>
+            <div class="col-6 text-end">
+                <a class="btn btn-danger btn-sm" href="/admin/iletisim-formlari"><i class="fa fa-times me-2"></i>İptal</a>
+            </div>
+        </div>
+    </div>
+</div>
+

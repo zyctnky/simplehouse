@@ -1,12 +1,12 @@
-﻿@model simplehouse.Models.MEMBER
+﻿@model simplehouse.Models.CONTACTFORM
 @{
-    ViewBag.Title = "Takım Üyesi Sil";
+    ViewBag.Title = "İletişim Formu Sil";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
 <div class="card content-card">
     <div class="card-header py-3 bg-dark text-light">
-        <h5 class="m-0">Takim Üyesi Sil</h5>
+        <h5 class="m-0">Yiyecek Sil</h5>
     </div>
     <div class="card-body">
         @if (ViewBag.Error != null)
@@ -15,22 +15,16 @@
                 <span>@ViewBag.Error</span>
             </div>
         }
-        @using (Html.BeginForm("DeleteMember", "Admin", FormMethod.Post))
+        @using (Html.BeginForm("DeleteContactForm", "Admin", FormMethod.Post))
         {
             <div class="row">
                 <div class="col-md-6">
-                    <img src="~/Content/images/members/@Model.IMAGE" class="img-fluid mb-3" />
-                </div>
-                <div class="col-md-6">
-                    <p><b>Durum: </b> @Model.STATE_NAME</p>
                     <p><b>Ad Soyad: </b> @Model.NAME</p>
-                    <p><b>Ünvan: </b> @Model.TITLE</p>
-                    <p><b>Detaylar: </b> @Model.DESCRIPTION</p>
-                    <p><b>Twitter: </b> @Model.TWITTER</p>
-                    <p><b>Facebook: </b> @Model.FACEBOOK</p>
-                    <p><b>Instagram: </b> @Model.INSTAGRAM</p>
+                    <p><b>Email: </b> @Model.EMAIL</p>
+                    <p><b>Tarih: </b> @Model.SEND_DATE</p>
+                    <p><b>Mesaj: </b> @Model.MESSAGE</p>
                     <div class="form-group bg-danger text-light p-2 my-3">
-                        <span>Takım Üyesi Silinecek. Devam Edilsin Mi?</span>
+                        <span>İletişim formu Silinecek. Devam Edilsin Mi?</span>
                     </div>
                     <div class="form-group text-end">
                         @Html.HiddenFor(model => model.ID)
@@ -42,7 +36,8 @@
     </div>
     <div class="card-footer bg-dark text-light">
         <div class="text-end">
-            <a class="btn btn-danger btn-sm" href="/admin/takim-uyeleri"><i class="fa fa-times me-2"></i>İptal</a>
+            <a class="btn btn-danger btn-sm" href="/admin/iletisim-formlari"><i class="fa fa-times me-2"></i>İptal</a>
         </div>
     </div>
 </div>
+

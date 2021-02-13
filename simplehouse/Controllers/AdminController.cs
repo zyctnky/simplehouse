@@ -16,17 +16,80 @@ namespace simplehouse.Controllers
         FoodDataAccess foodDA = new FoodDataAccess();
         MemberDataAccess memberDA = new MemberDataAccess();
         ContactInfoDataAccess contactInfoDA = new ContactInfoDataAccess();
+        ContactFormDataAccess contactFormDA = new ContactFormDataAccess();
+        UserDataAccess userDA = new UserDataAccess();
 
         [Route("admin")]
         public ActionResult Index()
         {
+            if (Session["ID"] == null)
+                return RedirectToAction("Login");
+
             return View();
         }
+
+        #region Account
+
+        [Route("login")]
+        public ActionResult Login()
+        {
+            if (Session["ID"] != null)
+                return RedirectToAction("Index");
+
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult LoginForm(USER user)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    if (userDA.IsLoginOK(user))
+                    {
+                        USER _user = userDA.GetByEmail(user.EMAIL);
+                        Session["ID"] = _user.ID;
+                        Session["EMAIL"] = _user.EMAIL;
+                        Session["NAME"] = _user.NAME;
+
+                        return RedirectToAction("Index", "Admin");
+                    }
+                    else
+                    {
+                        ViewBag.Error = "Kullanıcı adı veya şifre hatalı.";
+                        return View("Login", user);
+                    }
+                }
+                else
+                {
+                    ViewBag.Error = "Try Again.";
+                    return View("Login", user);
+                }
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Error = "Try Again.";
+                return View("Login", user);
+            }
+        }
+
+        [Route("logout")]
+        public ActionResult Logout()
+        {
+            Session.RemoveAll();
+            return RedirectToAction("Login");
+        }
+
+        #endregion
 
         #region Kategori
         [Route("admin/kategoriler")]
         public ActionResult Categories()
         {
+            if (Session["ID"] == null)
+                return RedirectToAction("Index");
+
             List<CATEGORY> categories = categoryDA.GetAll(null);
             return View(categories);
         }
@@ -34,12 +97,15 @@ namespace simplehouse.Controllers
         [Route("admin/kategori-ekle")]
         public ActionResult CategoryInsert()
         {
+            if (Session["ID"] == null)
+                return RedirectToAction("Index");
+
             PopulateStateDropdownList();
             return View();
         }
 
         [HttpPost]
-        public ActionResult InsertCategoryForm(CATEGORY category)
+        public ActionResult InsertCategory(CATEGORY category)
         {
             try
             {
@@ -66,13 +132,16 @@ namespace simplehouse.Controllers
         [Route("admin/kategori-duzenle/{id}")]
         public ActionResult CategoryUpdate(int id)
         {
+            if (Session["ID"] == null)
+                return RedirectToAction("Index");
+
             CATEGORY category = categoryDA.GetById(id);
             PopulateStateDropdownList(category.STATE_ID);
             return View(category);
         }
 
         [HttpPost]
-        public ActionResult UpdateCategoryForm(CATEGORY category)
+        public ActionResult UpdateCategory(CATEGORY category)
         {
             try
             {
@@ -99,12 +168,15 @@ namespace simplehouse.Controllers
         [Route("admin/kategori-sil/{id}")]
         public ActionResult CategoryDelete(int id)
         {
+            if (Session["ID"] == null)
+                return RedirectToAction("Index");
+
             CATEGORY category = categoryDA.GetById(id);
             return View(category);
         }
 
         [HttpPost]
-        public ActionResult DeleteCategoryForm(int id)
+        public ActionResult DeleteCategory(int id)
         {
             CATEGORY category = categoryDA.GetById(id);
             try
@@ -133,6 +205,9 @@ namespace simplehouse.Controllers
         [Route("admin/yiyecekler")]
         public ActionResult Foods()
         {
+            if (Session["ID"] == null)
+                return RedirectToAction("Index");
+
             List<FOOD> foods = foodDA.GetAll(null);
             return View(foods);
         }
@@ -140,6 +215,9 @@ namespace simplehouse.Controllers
         [Route("admin/yiyecek/{id}")]
         public ActionResult Food(int id)
         {
+            if (Session["ID"] == null)
+                return RedirectToAction("Index");
+
             FOOD food = foodDA.GetById(id);
             return View(food);
         }
@@ -147,13 +225,16 @@ namespace simplehouse.Controllers
         [Route("admin/yiyecek-ekle")]
         public ActionResult FoodInsert()
         {
+            if (Session["ID"] == null)
+                return RedirectToAction("Index");
+
             PopulateStateDropdownList();
             PopulateCategoryDropdownList();
             return View();
         }
 
         [HttpPost]
-        public ActionResult InsertFoodForm(FOOD food)
+        public ActionResult InsertFood(FOOD food)
         {
             try
             {
@@ -198,6 +279,9 @@ namespace simplehouse.Controllers
         [Route("admin/yiyecek-duzenle/{id}")]
         public ActionResult FoodUpdate(int id)
         {
+            if (Session["ID"] == null)
+                return RedirectToAction("Index");
+
             FOOD food = foodDA.GetById(id);
             PopulateStateDropdownList(food.STATE_ID);
             PopulateCategoryDropdownList(food.CATEGORY_ID);
@@ -205,7 +289,7 @@ namespace simplehouse.Controllers
         }
 
         [HttpPost]
-        public ActionResult UpdateFoodForm(FOOD food)
+        public ActionResult UpdateFood(FOOD food)
         {
             FOOD _food = foodDA.GetById(food.ID);
             try
@@ -249,12 +333,15 @@ namespace simplehouse.Controllers
         [Route("admin/yiyecek-sil/{id}")]
         public ActionResult FoodDelete(int id)
         {
+            if (Session["ID"] == null)
+                return RedirectToAction("Index");
+
             FOOD food = foodDA.GetById(id);
             return View(food);
         }
 
         [HttpPost]
-        public ActionResult DeleteFoodForm(int id)
+        public ActionResult DeleteFood(int id)
         {
             FOOD food = foodDA.GetById(id);
             try
@@ -288,6 +375,9 @@ namespace simplehouse.Controllers
         [Route("admin/takim-uyeleri")]
         public ActionResult Members()
         {
+            if (Session["ID"] == null)
+                return RedirectToAction("Index");
+
             List<MEMBER> members = memberDA.GetAll(null);
             return View(members);
         }
@@ -295,6 +385,9 @@ namespace simplehouse.Controllers
         [Route("admin/takim-uyesi/{id}")]
         public ActionResult Member(int id)
         {
+            if (Session["ID"] == null)
+                return RedirectToAction("Index");
+
             MEMBER member = memberDA.GetById(id);
             return View(member);
         }
@@ -302,12 +395,15 @@ namespace simplehouse.Controllers
         [Route("admin/takim-uyesi-ekle")]
         public ActionResult MemberInsert()
         {
+            if (Session["ID"] == null)
+                return RedirectToAction("Index");
+
             PopulateStateDropdownList();
             return View();
         }
 
         [HttpPost]
-        public ActionResult InsertMemberForm(MEMBER member)
+        public ActionResult InsertMember(MEMBER member)
         {
             try
             {
@@ -349,13 +445,16 @@ namespace simplehouse.Controllers
         [Route("admin/takim-uyesi-duzenle/{id}")]
         public ActionResult MemberUpdate(int id)
         {
+            if (Session["ID"] == null)
+                return RedirectToAction("Index");
+
             MEMBER member = memberDA.GetById(id);
             PopulateStateDropdownList(member.STATE_ID);
             return View(member);
         }
 
         [HttpPost]
-        public ActionResult UpdateMemberForm(MEMBER member)
+        public ActionResult UpdateMember(MEMBER member)
         {
             MEMBER _member = memberDA.GetById(member.ID);
             try
@@ -397,12 +496,15 @@ namespace simplehouse.Controllers
         [Route("admin/takim-uyesi-sil/{id}")]
         public ActionResult MemberDelete(int id)
         {
+            if (Session["ID"] == null)
+                return RedirectToAction("Index");
+
             MEMBER member = memberDA.GetById(id);
             return View(member);
         }
 
         [HttpPost]
-        public ActionResult DeleteMemberForm(int id)
+        public ActionResult DeleteMember(int id)
         {
             MEMBER member = memberDA.GetById(id);
             try
@@ -431,9 +533,13 @@ namespace simplehouse.Controllers
 
         #endregion
 
+        #region İletişim Bilgileri
         [Route("admin/iletisim-bilgileri")]
         public ActionResult ContactInfo()
         {
+            if (Session["ID"] == null)
+                return RedirectToAction("Index");
+
             CONTACTINFO contactInfo = contactInfoDA.Get();
             if (contactInfo.ID <= 0)
             {
@@ -451,7 +557,7 @@ namespace simplehouse.Controllers
         }
 
         [HttpPost]
-        public ActionResult UpdateContactInfoForm(CONTACTINFO contactInfo)
+        public ActionResult UpdateContactInfo(CONTACTINFO contactInfo)
         {
             try
             {
@@ -473,16 +579,118 @@ namespace simplehouse.Controllers
             }
         }
 
+        #endregion
+
+        #region İletişim Formları
+
         [Route("admin/iletisim-formlari")]
         public ActionResult ContactForms()
         {
-            return View();
+            if (Session["ID"] == null)
+                return RedirectToAction("Index");
+
+            List<CONTACTFORM> contactForms = contactFormDA.GetAll();
+            return View(contactForms);
         }
+
+        [Route("admin/iletisim-formu/{id}")]
+        public ActionResult ContactForm(int id)
+        {
+            if (Session["ID"] == null)
+                return RedirectToAction("Index");
+
+            CONTACTFORM contactForm = contactFormDA.GetById(id);
+            return View(contactForm);
+        }
+
+        [Route("admin/iletisim-formu-sil/{id}")]
+        public ActionResult ContactFormDelete(int id)
+        {
+            if (Session["ID"] == null)
+                return RedirectToAction("Index");
+
+            CONTACTFORM contactForm = contactFormDA.GetById(id);
+            return View(contactForm);
+        }
+
+        [HttpPost]
+        public ActionResult DeleteContactForm(int id)
+        {
+            CONTACTFORM contactForm = contactFormDA.GetById(id);
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    contactFormDA.Delete(id);
+
+                    return RedirectToAction("ContactForms", "Admin");
+                }
+                else
+                {
+                    ViewBag.Error = "Try Again.";
+                    return View("ContactFormDelete", contactForm);
+                }
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Error = "Try Again.";
+                return View("ContactFormDelete", contactForm);
+            }
+        }
+
+        #endregion
+
 
         [Route("admin/sifre-degistir")]
         public ActionResult ChangePassword()
         {
+            if (Session["ID"] == null)
+                return RedirectToAction("Index");
+
             return View();
+        }
+
+        [HttpPost]
+        public ActionResult UpdatePassword(CHANGEPASSWORD changePassword)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    int userId = (int)Session["ID"];
+                    USER user = userDA.GetById(userId);
+
+                    if (user.PASSWORD == changePassword.OLDPASSWORD)
+                    {
+                        if (changePassword.NEWPASSWORD == changePassword.NEWPASSWORD_REPEAT)
+                        {
+                            userDA.ChangePassword(userId, changePassword.NEWPASSWORD);
+                            ViewBag.Success = "Şife değiştirildi.";
+                            return View("ChangePassword");
+                        }
+                        else
+                        {
+                            ViewBag.Error = "Yeni şifreler uyuşmuyor.";
+                            return View("ChangePassword");
+                        }
+                    }
+                    else
+                    {
+                        ViewBag.Error = "Eski şifre hatalı.";
+                        return View("ChangePassword");
+                    }
+                }
+                else
+                {
+                    ViewBag.Error = "Try Again.";
+                    return View("ChangePassword");
+                }
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Error = "Try Again.";
+                return View("ChangePassword");
+            }
         }
 
         private void PopulateStateDropdownList(object selectedState = null)

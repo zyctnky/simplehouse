@@ -18,9 +18,10 @@
                     <div class="col-md-3 mb-3">
                         <div class="card bg-dark text-light h-100 d-none d-md-block" style="min-height: 640px">
                             <div class="card-body">
-                                <img src="~/Content/assets/img/simple-house-logo.png" class="mb-3" />
-                                <h5>Simple House</h5>
-                                <p class="m-0 p-0"><strong>Welcome</strong> @Session["UserName"] </p>
+                                <div class="text-center">
+                                    <img src="~/Content/assets/img/simple-house-logo.png" class="mb-3" />
+                                    <h5>Simple House</h5>
+                                </div>
                                 <hr />
                                 <a class="bg-dark text-light d-block py-2" href="/admin">Ana Sayfa</a>
                                 <a class="bg-dark text-light d-block py-2" href="/admin/kategoriler">Kategoriler</a>
@@ -31,6 +32,7 @@
                                 <a class="bg-dark text-light d-block py-2" href="/admin/sifre-degistir">Şifre Değiştir</a>
                                 <hr />
                                 <div class="text-center">
+                                    <p>@Session["NAME"] </p>
                                     <a href="/logout" class="btn btn-sm btn-danger px-5">Logout</a>
                                 </div>
                             </div>
@@ -54,6 +56,10 @@
                                 <a class="bg-dark text-light d-block p-2" href="/admin/iletisim-bilgileri">İletişim Bilgileri</a>
                                 <a class="bg-dark text-light d-block p-2" href="/admin/iletisim-formlari">İletişim Formları</a>
                                 <a class="bg-dark text-light d-block p-2" href="/admin/sifre-degistir">Şifre Değiştir</a>
+                                <div class="text-center py-2">
+                                    <p class="m-0 p-0">@Session["NAME"] </p>
+                                    <a href="/logout" class="btn btn-sm btn-danger px-5">Logout</a>
+                                </div>
                             </div>
                         </div>
                     </div>

@@ -1,0 +1,31 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="~/Content/admin_assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/admin_assets/css/style.css" rel="stylesheet" />
+    <link href="~/Content/assets/css/all.min.css" rel="stylesheet" />
+    <title>Simple House - Admin</title>
+</head>
+<body>
+    <div class="container pt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-12">
+                <div class="row justify-content-center">
+                    <div class="col-md-4">
+                        <div class="bg-dark text-light text-center py-3">
+                            <img src="~/Content/assets/img/simple-house-logo.png" class="mb-3" />
+                            <h5>Simple House</h5>
+                        </div>
+                        @RenderBody()
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="~/Content/admin_assets/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

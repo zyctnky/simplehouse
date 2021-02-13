@@ -125,18 +125,23 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PartialsController.cs" />
     <Compile Include="DataAccess\CategoryDataAccess.cs" />
+    <Compile Include="DataAccess\ContactFormDataAccess.cs" />
     <Compile Include="DataAccess\ContactInfoDataAccess.cs" />
     <Compile Include="DataAccess\FoodDataAccess.cs" />
     <Compile Include="DataAccess\MemberDataAccess.cs" />
     <Compile Include="DataAccess\StateDataAccess.cs" />
+    <Compile Include="DataAccess\UserDataAccess.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\CATEGORY.cs" />
+    <Compile Include="Models\CHANGEPASSWORD.cs" />
+    <Compile Include="Models\CONTACTFORM.cs" />
     <Compile Include="Models\FOOD.cs" />
     <Compile Include="Models\CONTACTINFO.cs" />
     <Compile Include="Models\MEMBER.cs" />
     <Compile Include="Models\STATE.cs" />
+    <Compile Include="Models\USER.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -183,6 +188,10 @@
     <Content Include="Views\Admin\MemberInsert.cshtml" />
     <Content Include="Views\Admin\MemberUpdate.cshtml" />
     <Content Include="Views\Admin\MemberDelete.cshtml" />
+    <Content Include="Views\Admin\ContactForm.cshtml" />
+    <Content Include="Views\Admin\ContactFormDelete.cshtml" />
+    <Content Include="Views\Admin\Login.cshtml" />
+    <Content Include="Views\Shared\_AccountLayout.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

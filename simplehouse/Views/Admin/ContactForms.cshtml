@@ -1,8 +1,45 @@
-﻿
+﻿@model List<simplehouse.Models.CONTACTFORM>
 @{
-    ViewBag.Title = "ContactForms";
+    ViewBag.Title = "İletişim Formları";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h2>ContactForms</h2>
+<div class="card content-card">
+    <div class="card-header py-3 bg-dark text-light">
+        <h5 class="m-0">İletişim Formları</h5>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-sm table-hover">
+                <thead>
+                    <tr>
+                        <th>Ad-Soyad</th>
+                        <th>Email</th>
+                        <th>Tarih</th>
+                        <th class="text-end">İşlemler</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.NAME</td>
+                            <td>@item.EMAIL</td>
+                            <td>@item.SEND_DATE</td>
+                            <td class="text-end">
+                                <a href="/admin/iletisim-formu/@item.ID" class="btn btn-dark px-3 py-0"><i class="fa fa-sm fa-ellipsis-h"></i></a>
+                                <a href="/admin/iletisim-formu-sil/@item.ID" class="btn btn-danger px-3 py-0"><i class="fa fa-sm fa-trash"></i></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="card-footer bg-dark text-light">
+        <div class="text-end">
+        </div>
+    </div>
+</div>
+
 

@@ -1,6 +1,6 @@
 ﻿@model simplehouse.Models.MEMBER
 @{
-    ViewBag.Title = "MemberInsert";
+    ViewBag.Title = "Takım Üyesi Ekle";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
@@ -15,7 +15,7 @@
                 <span>@ViewBag.Error</span>
             </div>
         }
-        @using (Html.BeginForm("InsertMemberForm", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        @using (Html.BeginForm("InsertMember", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
         {
             <div class="row">
                 <div class="col-md-6">

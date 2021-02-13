@@ -1,0 +1,32 @@
+﻿@model simplehouse.Models.USER
+@{
+    ViewBag.Title = "Giriş Yap";
+    Layout = "~/Views/Shared/_AccountLayout.cshtml";
+}
+
+<div class="card">
+    <div class="card-body">
+        @if (ViewBag.Error != null)
+        {
+            <div class="bg-danger text-light p-3 mb-2">
+                <span>@ViewBag.Error</span>
+            </div>
+        }
+        @using (Html.BeginForm("LoginForm", "Admin", FormMethod.Post))
+        {
+            <div class="form-group mb-2 border-bottom py-2">
+                <h5 class="p-0 m-0">Giriş Yap</h5>
+            </div>
+            <div class="form-group mb-3">
+                @Html.TextBoxFor(model => model.EMAIL, new { @class = "form-control", type = "text", placeholder = "Email" })
+            </div>
+            <div class="form-group mb-3">
+                @Html.TextBoxFor(model => model.PASSWORD, new { @class = "form-control", type = "password", placeholder = "Şifre" })
+            </div>
+            <div class="form-group text-end">
+                <button type="submit" class="btn btn-primary btn-sm px-5">Giriş Yap</button>
+            </div>
+        }
+    </div>
+</div>
+
