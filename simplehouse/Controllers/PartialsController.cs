@@ -1,4 +1,6 @@
-﻿using System;
+﻿using simplehouse.DataAccess;
+using simplehouse.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,6 +10,10 @@ namespace simplehouse.Controllers
 {
     public class PartialsController : Controller
     {
+        MemberDataAccess memberDA = new MemberDataAccess();
+        ContactInfoDataAccess contactInfoDA = new ContactInfoDataAccess();
+        FAQDataAccess faqDA = new FAQDataAccess();
+
         public ActionResult _Menu()
         {
             return PartialView();
@@ -15,20 +21,24 @@ namespace simplehouse.Controllers
 
         public ActionResult _OurTeam()
         {
-            return PartialView();
+            List<MEMBER> members = memberDA.GetAll(true);
+            return PartialView(members);
         }
         public ActionResult _ContactForm()
         {
             return PartialView();
         }
+
         public ActionResult _ContactInfo()
         {
-            return PartialView();
+            CONTACTINFO contactInfo = contactInfoDA.Get();
+            return PartialView(contactInfo);
         }
 
         public ActionResult _Faqs()
         {
-            return PartialView();
+            List<FAQ> faqs = faqDA.GetAll(true);
+            return PartialView(faqs);
         }
     }
 }

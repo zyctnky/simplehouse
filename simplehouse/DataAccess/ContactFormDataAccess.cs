@@ -41,6 +41,27 @@ namespace simplehouse.DataAccess
             return contactForms;
         }
 
+        internal void Insert(CONTACTFORM contactForm)
+        {
+            using (con = new SqlConnection(connectionString))
+            {
+                string sqlQuery = $@"INSERT INTO TCONTACTFORM (NAME, EMAIL, MESSAGE, SEND_DATE) VALUES (@NAME, @EMAIL, @MESSAGE, @SEND_DATE)";
+
+                using (SqlCommand cmd = new SqlCommand(sqlQuery, con))
+                {
+                    con.Open();
+                    cmd.Parameters.AddWithValue("@NAME", contactForm.NAME);
+                    cmd.Parameters.AddWithValue("@EMAIL", contactForm.EMAIL);
+                    cmd.Parameters.AddWithValue("@MESSAGE", contactForm.MESSAGE);
+                    cmd.Parameters.AddWithValue("@SEND_DATE", DateTime.Now);
+
+                    cmd.ExecuteNonQuery();
+
+                    con.Close();
+                }
+            }
+        }
+
         internal CONTACTFORM GetById(int id)
         {
             CONTACTFORM contactForm = new CONTACTFORM();
@@ -73,7 +94,20 @@ namespace simplehouse.DataAccess
 
         internal void Delete(int id)
         {
-            throw new NotImplementedException();
+            using (con = new SqlConnection(connectionString))
+            {
+                string sqlQuery = $@"DELETE FROM TCONTACTFORM WHERE ID = @ID";
+
+                using (SqlCommand cmd = new SqlCommand(sqlQuery, con))
+                {
+                    con.Open();
+                    cmd.Parameters.AddWithValue("@ID", id);
+
+                    cmd.ExecuteNonQuery();
+
+                    con.Close();
+                }
+            }
         }
     }
 }

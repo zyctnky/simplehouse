@@ -1,0 +1,41 @@
+﻿@model simplehouse.Models.FAQ
+@{
+    ViewBag.Title = "SSS Sil";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="card content-card">
+    <div class="card-header py-3 bg-dark text-light">
+        <h5 class="m-0">SSS Sil</h5>
+    </div>
+    <div class="card-body">
+        @if (ViewBag.Error != null)
+        {
+            <div class="bg-danger text-light p-3 mb-2">
+                <span>@ViewBag.Error</span>
+            </div>
+        }
+        <div class="row">
+            <div class="col-md-6">
+                @using (Html.BeginForm("DeleteFaq", "Admin", FormMethod.Post))
+                {
+                    <p><b>Durum: </b> @Model.STATE_NAME</p>
+                    <p><b>Başlık: </b> @Model.TITLE</p>
+                    <p><b>Detay: </b> @Model.DETAILS</p>
+                    <div class="form-group bg-danger text-light p-2 my-3">
+                        <span>SSS Silinecek. Devam Edilsin Mi?</span>
+                    </div>
+                    <div class="form-group text-end">
+                        @Html.HiddenFor(model => model.ID)
+                        <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-trash me-2"></i>Sil</button>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="card-footer bg-dark text-light">
+        <div class="text-end">
+            <a class="btn btn-danger btn-sm" href="/admin/ssss"><i class="fa fa-times me-2"></i>İptal</a>
+        </div>
+    </div>
+</div>

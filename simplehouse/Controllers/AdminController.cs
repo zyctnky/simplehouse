@@ -18,6 +18,7 @@ namespace simplehouse.Controllers
         ContactInfoDataAccess contactInfoDA = new ContactInfoDataAccess();
         ContactFormDataAccess contactFormDA = new ContactFormDataAccess();
         UserDataAccess userDA = new UserDataAccess();
+        FAQDataAccess faqDA = new FAQDataAccess();
 
         [Route("admin")]
         public ActionResult Index()
@@ -28,7 +29,7 @@ namespace simplehouse.Controllers
             return View();
         }
 
-        #region Account
+        #region Hesap
 
         [Route("login")]
         public ActionResult Login()
@@ -81,9 +82,62 @@ namespace simplehouse.Controllers
             return RedirectToAction("Login");
         }
 
+        [Route("admin/sifre-degistir")]
+        public ActionResult ChangePassword()
+        {
+            if (Session["ID"] == null)
+                return RedirectToAction("Index");
+
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult UpdatePassword(CHANGEPASSWORD changePassword)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    int userId = (int)Session["ID"];
+                    USER user = userDA.GetById(userId);
+
+                    if (user.PASSWORD == changePassword.OLDPASSWORD)
+                    {
+                        if (changePassword.NEWPASSWORD == changePassword.NEWPASSWORD_REPEAT)
+                        {
+                            userDA.ChangePassword(userId, changePassword.NEWPASSWORD);
+                            ViewBag.Success = "Şife değiştirildi.";
+                            return View("ChangePassword");
+                        }
+                        else
+                        {
+                            ViewBag.Error = "Yeni şifreler uyuşmuyor.";
+                            return View("ChangePassword");
+                        }
+                    }
+                    else
+                    {
+                        ViewBag.Error = "Eski şifre hatalı.";
+                        return View("ChangePassword");
+                    }
+                }
+                else
+                {
+                    ViewBag.Error = "Try Again.";
+                    return View("ChangePassword");
+                }
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Error = "Try Again.";
+                return View("ChangePassword");
+            }
+        }
+
         #endregion
 
         #region Kategori
+
         [Route("admin/kategoriler")]
         public ActionResult Categories()
         {
@@ -198,6 +252,7 @@ namespace simplehouse.Controllers
                 return View("CategoryDelete", category);
             }
         }
+
         #endregion
 
         #region Yiyecekler
@@ -534,6 +589,7 @@ namespace simplehouse.Controllers
         #endregion
 
         #region İletişim Bilgileri
+
         [Route("admin/iletisim-bilgileri")]
         public ActionResult ContactInfo()
         {
@@ -640,58 +696,134 @@ namespace simplehouse.Controllers
 
         #endregion
 
+        #region Sık Sorulan Sorular
 
-        [Route("admin/sifre-degistir")]
-        public ActionResult ChangePassword()
+        [Route("admin/ssss")]
+        public ActionResult Faqs()
         {
             if (Session["ID"] == null)
                 return RedirectToAction("Index");
 
+            List<FAQ> faqs = faqDA.GetAll(null);
+            return View(faqs);
+        }
+
+        [Route("admin/sss/{id}")]
+        public ActionResult Faq(int id)
+        {
+            if (Session["ID"] == null)
+                return RedirectToAction("Index");
+
+            FAQ faq = faqDA.GetById(id);
+            return View(faq);
+        }
+
+        [Route("admin/sss-ekle")]
+        public ActionResult FaqInsert()
+        {
+            if (Session["ID"] == null)
+                return RedirectToAction("Index");
+
+            PopulateStateDropdownList();
             return View();
         }
 
         [HttpPost]
-        public ActionResult UpdatePassword(CHANGEPASSWORD changePassword)
+        public ActionResult InsertFaq(FAQ faq)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    int userId = (int)Session["ID"];
-                    USER user = userDA.GetById(userId);
-
-                    if (user.PASSWORD == changePassword.OLDPASSWORD)
-                    {
-                        if (changePassword.NEWPASSWORD == changePassword.NEWPASSWORD_REPEAT)
-                        {
-                            userDA.ChangePassword(userId, changePassword.NEWPASSWORD);
-                            ViewBag.Success = "Şife değiştirildi.";
-                            return View("ChangePassword");
-                        }
-                        else
-                        {
-                            ViewBag.Error = "Yeni şifreler uyuşmuyor.";
-                            return View("ChangePassword");
-                        }
-                    }
-                    else
-                    {
-                        ViewBag.Error = "Eski şifre hatalı.";
-                        return View("ChangePassword");
-                    }
+                    faqDA.Insert(faq);
+                    return RedirectToAction("Faqs", "Admin");
                 }
                 else
                 {
                     ViewBag.Error = "Try Again.";
-                    return View("ChangePassword");
+                    PopulateStateDropdownList(faq.STATE_ID);
+                    return View("FaqInsert", faq);
                 }
             }
             catch (Exception ex)
             {
                 ViewBag.Error = "Try Again.";
-                return View("ChangePassword");
+                PopulateStateDropdownList(faq.STATE_ID);
+                return View("FaqInsert", faq);
             }
         }
+
+        [Route("admin/sss-duzenle/{id}")]
+        public ActionResult FaqUpdate(int id)
+        {
+            if (Session["ID"] == null)
+                return RedirectToAction("Index");
+
+            FAQ faq = faqDA.GetById(id);
+            PopulateStateDropdownList(faq.STATE_ID);
+            return View(faq);
+        }
+
+        [HttpPost]
+        public ActionResult UpdateFaq(FAQ faq)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    faqDA.Update(faq);
+                    return RedirectToAction("Faqs", "Admin");
+                }
+                else
+                {
+                    ViewBag.Error = "Try Again.";
+                    PopulateStateDropdownList(faq.STATE_ID);
+                    return View("FaqUpdate", faq);
+                }
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Error = "Try Again.";
+                PopulateStateDropdownList(faq.STATE_ID);
+                return View("FaqUpdate", faq);
+            }
+        }
+
+        [Route("admin/sss-sil/{id}")]
+        public ActionResult FaqDelete(int id)
+        {
+            if (Session["ID"] == null)
+                return RedirectToAction("Index");
+
+            FAQ faq = faqDA.GetById(id);
+            return View(faq);
+        }
+
+        [HttpPost]
+        public ActionResult DeleteFaq(int id)
+        {
+            FAQ faq = faqDA.GetById(id);
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    faqDA.Delete(id);
+                    return RedirectToAction("Faqs", "Admin");
+                }
+                else
+                {
+                    ViewBag.Error = "Try Again.";
+                    return View("FaqDelete", faq);
+                }
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Error = "Try Again.";
+                return View("FaqDelete", faq);
+            }
+        }
+
+        #endregion
 
         private void PopulateStateDropdownList(object selectedState = null)
         {

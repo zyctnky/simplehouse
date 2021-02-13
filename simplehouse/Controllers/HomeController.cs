@@ -1,4 +1,6 @@
-﻿using System;
+﻿using simplehouse.DataAccess;
+using simplehouse.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,6 +10,8 @@ namespace simplehouse.Controllers
 {
     public class HomeController : Controller
     {
+        ContactFormDataAccess contactFormDA = new ContactFormDataAccess();
+
         [Route("~/")]
         public ActionResult Index()
         {
@@ -33,6 +37,26 @@ namespace simplehouse.Controllers
             ViewBag.about = "";
             ViewBag.contact = "active";
             return View();
+        }
+
+
+        [HttpPost]
+        public ActionResult ContactForm(CONTACTFORM contactForm)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    contactFormDA.Insert(contactForm);
+                    return Json(new { SuccessMsg = "Mesajınız iletildi." });
+                }
+                catch (Exception ex)
+                {
+                    return Json(new { ErrorMsg = "Try Again." });
+                }
+            }
+            else
+                return Json(new { ErrorMsg = "Check All Fields." });
         }
     }
 }

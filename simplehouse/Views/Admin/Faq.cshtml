@@ -1,0 +1,31 @@
+﻿@model simplehouse.Models.FAQ
+@{
+    ViewBag.Title = "SSS";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="card content-card">
+    <div class="card-header py-3 bg-dark text-light">
+        <h5 class="m-0">SSS</h5>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6">
+                <p><b>Durum: </b> @Model.STATE_NAME</p>
+                <p><b>Başlık: </b> @Model.TITLE</p>
+                <p><b>Detay: </b> @Model.DETAILS</p>
+            </div>
+        </div>
+    </div>
+    <div class="card-footer bg-dark text-light">
+        <div class="row">
+            <div class="col-6">
+                <a class="btn btn-danger btn-sm" href="/admin/sss-sil/@Model.ID"><i class="fa fa-trash me-2"></i>Sil</a>
+            </div>
+            <div class="col-6 text-end">
+                <a class="btn btn-danger btn-sm" href="/admin/ssss"><i class="fa fa-times me-2"></i>İptal</a>
+            </div>
+        </div>
+    </div>
+</div>
+

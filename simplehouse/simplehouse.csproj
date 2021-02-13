@@ -127,6 +127,7 @@
     <Compile Include="DataAccess\CategoryDataAccess.cs" />
     <Compile Include="DataAccess\ContactFormDataAccess.cs" />
     <Compile Include="DataAccess\ContactInfoDataAccess.cs" />
+    <Compile Include="DataAccess\FAQDataAccess.cs" />
     <Compile Include="DataAccess\FoodDataAccess.cs" />
     <Compile Include="DataAccess\MemberDataAccess.cs" />
     <Compile Include="DataAccess\StateDataAccess.cs" />
@@ -137,6 +138,7 @@
     <Compile Include="Models\CATEGORY.cs" />
     <Compile Include="Models\CHANGEPASSWORD.cs" />
     <Compile Include="Models\CONTACTFORM.cs" />
+    <Compile Include="Models\FAQ.cs" />
     <Compile Include="Models\FOOD.cs" />
     <Compile Include="Models\CONTACTINFO.cs" />
     <Compile Include="Models\MEMBER.cs" />
@@ -192,6 +194,11 @@
     <Content Include="Views\Admin\ContactFormDelete.cshtml" />
     <Content Include="Views\Admin\Login.cshtml" />
     <Content Include="Views\Shared\_AccountLayout.cshtml" />
+    <Content Include="Views\Admin\FaqDelete.cshtml" />
+    <Content Include="Views\Admin\FaqUpdate.cshtml" />
+    <Content Include="Views\Admin\FaqInsert.cshtml" />
+    <Content Include="Views\Admin\Faqs.cshtml" />
+    <Content Include="Views\Admin\Faq.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
