@@ -18,7 +18,7 @@ namespace simplehouse.DataAccess
             using (con = new SqlConnection(connectionString))
             {
                 string sqlQuery = @"SELECT TFOOD.*, TCATEGORY.NAME AS CATEGORY_NAME, TSTATE.NAME AS STATE_NAME FROM TFOOD
-                                    INNER JOIN TCATEGORY ON TCATEGORY.ID = TFOOD.ID
+                                    INNER JOIN TCATEGORY ON TCATEGORY.ID = TFOOD.CATEGORY_ID
                                     INNER JOIN TSTATE ON TSTATE.ID = TFOOD.STATE_ID";
                 if (state != null)
                     sqlQuery += $@" WHERE TFOOD.STATE_ID = @STATE_ID";
@@ -52,13 +52,54 @@ namespace simplehouse.DataAccess
             return foods;
         }
 
+        internal List<FOOD> GetByCategoryId(int categoryId, bool? state)
+        {
+            List<FOOD> foods = new List<FOOD>();
+            using (con = new SqlConnection(connectionString))
+            {
+                string sqlQuery = @"SELECT TFOOD.*, TCATEGORY.NAME AS CATEGORY_NAME, TSTATE.NAME AS STATE_NAME FROM TFOOD
+                                    INNER JOIN TCATEGORY ON TCATEGORY.ID = TFOOD.CATEGORY_ID
+                                    INNER JOIN TSTATE ON TSTATE.ID = TFOOD.STATE_ID WHERE TFOOD.CATEGORY_ID = @CATEGORY_ID ";
+
+                if (state != null)
+                    sqlQuery += $@" AND TFOOD.STATE_ID = @STATE_ID";
+                using (SqlCommand cmd = new SqlCommand(sqlQuery, con))
+                {
+                    cmd.Parameters.AddWithValue("@CATEGORY_ID", categoryId);
+                    if (state != null)
+                        cmd.Parameters.AddWithValue("@STATE_ID", (bool)state ? 1 : 2);
+
+                    con.Open();
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        foods.Add(new FOOD()
+                        {
+                            ID = (int)reader["ID"],
+                            TITLE = (string)reader["TITLE"],
+                            DESCRIPTION = (string)reader["DESCRIPTION"],
+                            PRICE = (decimal)reader["PRICE"],
+                            IMAGE = (string)reader["IMAGE"],
+                            CATEGORY_ID = (int)reader["CATEGORY_ID"],
+                            CATEGORY_NAME = (string)reader["CATEGORY_NAME"],
+                            STATE_ID = (int)reader["STATE_ID"],
+                            STATE_NAME = (string)reader["STATE_NAME"]
+                        });
+                    }
+                    con.Close();
+                }
+            }
+
+            return foods;
+        }
+
         internal FOOD GetById(int id)
         {
             FOOD food = new FOOD();
             using (con = new SqlConnection(connectionString))
             {
                 string sqlQuery = @"SELECT TFOOD.*, TCATEGORY.NAME AS CATEGORY_NAME, TSTATE.NAME AS STATE_NAME FROM TFOOD
-                                    INNER JOIN TCATEGORY ON TCATEGORY.ID = TFOOD.ID
+                                    INNER JOIN TCATEGORY ON TCATEGORY.ID = TFOOD.CATEGORY_ID
                                     INNER JOIN TSTATE ON TSTATE.ID = TFOOD.STATE_ID 
                                     WHERE TFOOD.ID=@ID";
 

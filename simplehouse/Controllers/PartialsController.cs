@@ -13,10 +13,19 @@ namespace simplehouse.Controllers
         MemberDataAccess memberDA = new MemberDataAccess();
         ContactInfoDataAccess contactInfoDA = new ContactInfoDataAccess();
         FAQDataAccess faqDA = new FAQDataAccess();
+        FoodDataAccess foodDA = new FoodDataAccess();
+        CategoryDataAccess categoryDA = new CategoryDataAccess();
 
         public ActionResult _Menu()
         {
-            return PartialView();
+            List<CATEGORY> categories = categoryDA.GetAll(true);
+            return PartialView(categories);
+        }
+
+        public ActionResult _MenuDetails(int id)
+        {
+            List<FOOD> foods = foodDA.GetByCategoryId(id, true);
+            return PartialView(foods);
         }
 
         public ActionResult _OurTeam()

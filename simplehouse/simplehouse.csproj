@@ -199,6 +199,7 @@
     <Content Include="Views\Admin\FaqInsert.cshtml" />
     <Content Include="Views\Admin\Faqs.cshtml" />
     <Content Include="Views\Admin\Faq.cshtml" />
+    <Content Include="Views\Partials\_MenuDetails.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

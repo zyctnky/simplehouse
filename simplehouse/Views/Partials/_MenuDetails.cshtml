@@ -1,0 +1,15 @@
+﻿@model List<simplehouse.Models.FOOD>
+
+@for (int i = 0; i < Model.Count; i++)
+{
+    <article class="col-lg-3 col-md-3">
+        <figure>
+            <img src="~/Content/images/foods/@Model[i].IMAGE" alt="@Model[i].TITLE" class="img-fluid tm-gallery-img" />
+            <figcaption>
+                <h4 class="tm-gallery-title">@Model[i].TITLE</h4>
+                <p class="tm-gallery-description">@Model[i].DESCRIPTION</p>
+                <p class="tm-gallery-price">$@String.Format("{0:0.00}", Model[i].PRICE)</p>
+            </figcaption>
+        </figure>
+    </article>
+}
