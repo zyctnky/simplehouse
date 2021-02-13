@@ -15,6 +15,7 @@ namespace simplehouse.Controllers
         StateDataAccess stateDA = new StateDataAccess();
         FoodDataAccess foodDA = new FoodDataAccess();
         MemberDataAccess memberDA = new MemberDataAccess();
+        ContactInfoDataAccess contactInfoDA = new ContactInfoDataAccess();
 
         [Route("admin")]
         public ActionResult Index()
@@ -281,6 +282,9 @@ namespace simplehouse.Controllers
         }
 
         #endregion
+
+        #region Takım Üyeleri
+
         [Route("admin/takim-uyeleri")]
         public ActionResult Members()
         {
@@ -425,11 +429,48 @@ namespace simplehouse.Controllers
             }
         }
 
+        #endregion
 
         [Route("admin/iletisim-bilgileri")]
         public ActionResult ContactInfo()
         {
-            return View();
+            CONTACTINFO contactInfo = contactInfoDA.Get();
+            if (contactInfo.ID <= 0)
+            {
+                contactInfo.PHONE = "";
+                contactInfo.EMAIL = "";
+                contactInfo.ADDRESS = "";
+                contactInfo.FACEBOOK = "";
+                contactInfo.TWITTER = "";
+                contactInfo.INSTAGRAM = "";
+                contactInfoDA.Insert(contactInfo);
+
+                contactInfo = contactInfoDA.Get();
+            }
+            return View(contactInfo);
+        }
+
+        [HttpPost]
+        public ActionResult UpdateContactInfoForm(CONTACTINFO contactInfo)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    contactInfoDA.Update(contactInfo);
+                    return RedirectToAction("ContactInfo", "Admin");
+                }
+                else
+                {
+                    ViewBag.Error = "Try Again.";
+                    return View("ContactInfo", contactInfo);
+                }
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Error = "Try Again.";
+                return View("ContactInfo", contactInfo);
+            }
         }
 
         [Route("admin/iletisim-formlari")]

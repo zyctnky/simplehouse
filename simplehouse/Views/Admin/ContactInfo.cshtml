@@ -1,8 +1,62 @@
-﻿
+﻿@model simplehouse.Models.CONTACTINFO
 @{
-    ViewBag.Title = "ContactInfo";
+    ViewBag.Title = "İletişim Bilgileri";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h2>ContactInfo</h2>
+<div class="card content-card">
+    <div class="card-header py-3 bg-dark text-light">
+        <h5 class="m-0">İletişim Bilgileri</h5>
+    </div>
+    <div class="card-body">
+        @if (ViewBag.Error != null)
+        {
+            <div class="bg-danger text-light p-3 mb-2">
+                <span>@ViewBag.Error</span>
+            </div>
+        }
+        @using (Html.BeginForm("UpdateContactInfoForm", "Admin", FormMethod.Post))
+        {
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group mb-3">
+                        <label>Telefon</label>
+                        @Html.TextBoxFor(model => model.PHONE, new { @class = "form-control", type = "text", placeholder = "Telefon" })
+                    </div>
+                    <div class="form-group mb-3">
+                        <label>Email</label>
+                        @Html.TextBoxFor(model => model.EMAIL, new { @class = "form-control", type = "text", placeholder = "Email" })
+                    </div>
+                    <div class="form-group mb-3">
+                        <label>Adres</label>
+                        @Html.TextBoxFor(model => model.ADDRESS, new { @class = "form-control", type = "text", placeholder = "Adres" })
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group mb-3">
+                        <label>Facebook</label>
+                        @Html.TextBoxFor(model => model.FACEBOOK, new { @class = "form-control", type = "text", placeholder = "Facebook" })
+                    </div>
+                    <div class="form-group mb-3">
+                        <label>Twitter</label>
+                        @Html.TextBoxFor(model => model.TWITTER, new { @class = "form-control", type = "text", placeholder = "Twitter" })
+                    </div>
+                    <div class="form-group mb-3">
+                        <label>Instagram</label>
+                        @Html.TextBoxFor(model => model.INSTAGRAM, new { @class = "form-control", type = "text", placeholder = "Instagram" })
+                    </div>
+                    <div class="form-group text-end">
+                        @Html.HiddenFor(model => model.ID)
+                        <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-save me-2"></i>Kaydet</button>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="card-footer bg-dark text-light">
+        <div class="text-end">
+            <a class="btn btn-danger btn-sm" href="/admin/takim-uyeleri"><i class="fa fa-times me-2"></i>İptal</a>
+        </div>
+    </div>
+</div>
 

@@ -125,6 +125,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PartialsController.cs" />
     <Compile Include="DataAccess\CategoryDataAccess.cs" />
+    <Compile Include="DataAccess\ContactInfoDataAccess.cs" />
     <Compile Include="DataAccess\FoodDataAccess.cs" />
     <Compile Include="DataAccess\MemberDataAccess.cs" />
     <Compile Include="DataAccess\StateDataAccess.cs" />
@@ -133,6 +134,7 @@
     </Compile>
     <Compile Include="Models\CATEGORY.cs" />
     <Compile Include="Models\FOOD.cs" />
+    <Compile Include="Models\CONTACTINFO.cs" />
     <Compile Include="Models\MEMBER.cs" />
     <Compile Include="Models\STATE.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
