@@ -14,7 +14,7 @@ Projeye başlarken ki kullanıcı ve teknik taraftaki amaçlarımı şu şekilde
 2. **Teknik amaçlar**
     - DB First yaklaşımını kullanarak ASP.NET MVC projesi gerçekleştirmek
     - CRUD(Create-Read-Update-Delete) işlemlerini ADO.Net kullanarak yapabilmek
-    - ADO.Net ile birlikte TQL sorguları yazarak farklı SQL sorgular üzerinde çalışmak
+    - ADO.Net ile birlikte T-SQL sorguları yazarak farklı SQL sorgular üzerinde çalışmak
     - Session yönetimi ile kullanıcı yetki kontrollü login sistemi oluşturmak
     
 **DETAYLAR**
